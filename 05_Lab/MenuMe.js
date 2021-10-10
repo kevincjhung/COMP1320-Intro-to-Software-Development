@@ -13,7 +13,13 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
         csvData.push(dataRow);
     })
     .on('end', function (){   
-        console.log(csvData);
+        csvData.sort(); // sort the menu
+        
+        //retrieve the 1st column, which are the categories of the menu items, save it under a variable categories
+        let categories = csvData.map(function(value,index) {
+            return value[0]
+        });
+        // need to remoove duplicates from variable categories
 });
 
 /**
