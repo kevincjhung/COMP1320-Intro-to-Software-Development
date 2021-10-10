@@ -1,7 +1,7 @@
 const parse = require('csv-parse');
 const fs = require('fs');
 
-let csvData = []; // array used to store data from csv file
+let csvData = []; // array used to store data
 
 fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
     .pipe(
@@ -13,15 +13,16 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
         csvData.push(dataRow);
     })
     .on('end', function (){   
-        csvData.sort(); // sort the menu
-        
         //retrieve the 1st column, which are the categories of the menu items, save it under a variable categories
         let categories = csvData.map(function(value,index) {
             return value[0]
         });
-        // need to remoove duplicates from variable categories
+        for(let i = 0; i < 5; i++){
+            console.log(typeof(csvData[i][0]));
+        }
+        
+        // catNoDup = categories no duplicates
+        let catNoDup = categories.filter(function(elem, index, self) {
+            return index === self.indexOf(elem);
+        })        
 });
-
-/**
-* The code at this point will read the csv file from menu1.csv and store it in the variable csvData[]
-*/
