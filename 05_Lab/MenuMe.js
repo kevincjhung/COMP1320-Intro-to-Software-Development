@@ -9,20 +9,17 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
             delimiter: ',' //values separated by comma
         })
     )
-    .on('data', function (dataRow){
-        csvData.push(dataRow);
+    .on('data', function (dataRow){ // take data from each row of the CSV file
+        csvData.push(dataRow); // take each row of data from the CSV file, push it onto the csvData[] 
     })
-    .on('end', function (){   
-        //retrieve the 1st column, which are the categories of the menu items, save it under a variable categories
+    .on('end', function (){   // when there is no more data, do:
+        //retrieve the 1st column, which are the categories of the menu items, save it under variable "categories" using map function
         let categories = csvData.map(function(value,index) {
             return value[0]
         });
-        for(let i = 0; i < 5; i++){
-            console.log(typeof(csvData[i][0]));
-        }
         
-        // catNoDup = categories no duplicates
+        // categories no duplicates. same as categories[], but with the duplicates removed
         let catNoDup = categories.filter(function(elem, index, self) {
             return index === self.indexOf(elem);
-        })        
+        })                
 });
