@@ -1,5 +1,6 @@
 const parse = require('csv-parse');
 const fs = require('fs');
+const { type } = require('os');
 
 let csvData = []; // array used to store data
 
@@ -39,16 +40,23 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
                 rowCSV.shift(); // remove the first item in the row
 
                 let price  = rowCSV.pop();
-                rowCSV.unshift(price);
+                
+                // take price, remove $, multiply 1.8, show 2 decimal point
+                price = price.substring(1); // take off dollar sign
+                price = Number(price * 1.8); // convert variable 'price' to number, multiply by 1.8
+                price = price.toFixed(2); // make it show 2 decial places
+                price = "$" + price; // add dollar sign
+               
+                rowCSV.unshift(price); // insert price to first column of menu
 
-                menuString.push(rowCSV);
-                menuString.push("\n");
+                // take edited row of menu from the input csv file
+                // push it onto the string menuString
+                menuString.push(rowCSV); 
+                menuString.push("\n"); // space for formatting
             }
         }
-        menuString.push("\n");
+        menuString.push("\n"); // space for formatting
     }
-    console.log(menuString);
-
 
     fs.writeFile('formattedMenu.txt', menuString.join(' '), function(err){
         if (err) {
