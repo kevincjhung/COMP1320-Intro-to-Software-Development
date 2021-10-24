@@ -46,11 +46,12 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
                 price = Number(price * 1.8); // convert variable 'price' to number, multiply by 1.8
                 price = price.toFixed(2); // make it show 2 decial places
                 price = "$" + price; // add dollar sign
-               
-                rowCSV.unshift(price); // insert price to first column of menu
+                
+                // insert price to first column of menu
+                rowCSV.unshift(price); 
 
-                // take edited row of menu from the input csv file
-                // push it onto the string menuString
+                // take the edited row of menu from the input csv file
+                // push it onto the string menuString, 
                 menuString.push(rowCSV); 
                 menuString.push("\n"); // space for formatting
             }
@@ -58,9 +59,17 @@ fs.createReadStream(__dirname + '/menu1.csv',) //current directory + file name
         menuString.push("\n"); // space for formatting
     }
 
-    fs.writeFile('formattedMenu.txt', menuString.join(' '), function(err){
-        if (err) {
-            console.log(err)
-        } 
+    const TextMenuPromise = new Promise((resolve, reject) => {
+        fs.writeFile('formattedMenu.txt', menuString.join(' '), (err) => {
+            if(err){
+                reject("Did not write to text menu successfully");
+            } else {
+                resolve("Text menu was successfully created");
+            }
+        })
     })
+
+    TextMenuPromise
+        .then((msg) => console.log(msg))
+        .catch((err) => console.log(err));
 });
